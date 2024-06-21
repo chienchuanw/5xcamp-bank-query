@@ -32,3 +32,6 @@ environ:
 readme:
 	touch README.md
 
+# Node.js
+tailwindcss:
+	npx tailwindcss -i ./src/styles/input.css -o ./static/styles/output.css --watch
