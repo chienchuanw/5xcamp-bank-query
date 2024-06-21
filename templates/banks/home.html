@@ -4,9 +4,7 @@
 {% block title %}- 首頁{% endblock title %}
 
 {% block content %}
-
-
-<div x-data="{ openBankOption: false, openBranchOption: false }">
+<div x-data="{ openBankOption: false, openBranchOption: false, bankSearch: '' }">
   <div class="max-w-md mx-auto my-10">
     <label for="bank-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
     <div class="relative" @click.away="openBankOption = false">
@@ -19,7 +17,7 @@
       </div>
       <input type="search" id="bank-search"
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
-        placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" />
+        placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" @input="bankSearch = $event.target.value" />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
@@ -32,7 +30,7 @@
 		</div>
   </div>
 	<div class="max-w-md mx-auto my-10">
-    <label for="bank-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
+    <label for="branch-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
     <div class="relative" @click.away="openBranchOption = false">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -41,9 +39,9 @@
             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
         </svg>
       </div>
-      <input type="search" id="bank-search"
+      <input type="search" id="branch-search"
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
-        placeholder="請選擇分行名稱" @focus="openBranchOption = true" />
+        placeholder="請選擇分行名稱" @focus="openBranchOption = true" :disabled="bankSearch === ''"/>
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
@@ -56,11 +54,4 @@
 		</div>
   </div>
 </div>
-
-
-
-
-
-
-
 {% endblock content %}
