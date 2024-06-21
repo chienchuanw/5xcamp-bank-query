@@ -6,10 +6,10 @@
 {% block content %}
 
 
-<div x-data="{ open: false }">
-  <form class="max-w-md mx-auto my-10">
+<div x-data="{ openBankOption: false, openBranchOption: false }">
+  <div class="max-w-md mx-auto my-10">
     <label for="bank-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
-    <div class="relative" @click.away="open = false">
+    <div class="relative" @click.away="openBankOption = false">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
           fill="none" viewBox="0 0 20 20">
@@ -19,19 +19,46 @@
       </div>
       <input type="search" id="bank-search"
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
-        placeholder="請輸入關鍵字或銀行代碼..." @focus="open = true" />
+        placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
-		<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="open">
+		<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBankOption">
 			<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
 				{% for bank in banks %}
 				<li class="block px-4 py-2 hover:bg-gray-100">{{bank.code}} {{ bank.name }}</li>
 				{% endfor %}
 			</ul>
 		</div>
-  </form>
+  </div>
+	<div class="max-w-md mx-auto my-10">
+    <label for="bank-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
+    <div class="relative" @click.away="openBranchOption = false">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+        </svg>
+      </div>
+      <input type="search" id="bank-search"
+        class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
+        placeholder="請選擇分行名稱" @focus="openBranchOption = true" />
+      <button type="button"
+        class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
+    </div>
+		<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBranchOption">
+			<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+				{% for branch in branches %}
+				<li class="block px-4 py-2 hover:bg-gray-100">{{ branch.branch_name }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+  </div>
 </div>
+
+
+
 
 
 
