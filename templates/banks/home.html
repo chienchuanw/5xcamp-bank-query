@@ -12,9 +12,13 @@
 	banks: {{ banks_json }}, 
 	branches: {{ branches_json }}, 
 	get filteredBanks() {
-		const search = this.bankSearch.trim();
+		const search = this.bankSearch.trim().toLowerCase();
 		if (search === '') return this.banks;
-		return this.banks.filter(bank => bank.name.includes(search) || bank.code.includes(search));
+		const searchWords = search.split(' ').filter(word => word);
+		return this.banks.filter(bank => {
+			const bankInfo = `${bank.code} ${bank.name}`;
+			return searchWords.every(word => bankInfo.includes(word));
+		});
 	}
 }">
 	<!-- test -->
@@ -75,7 +79,7 @@
         placeholder="請選擇分行名稱" 
 				@focus="openBranchOption = true" 
 				x-effect="
-            if (bankSearch === '') {
+            if (selectedBank === '') {
                 $el.setAttribute('disabled', true);
                 $el.classList.add('bg-gray-200');
                 $el.classList.remove('bg-white');
@@ -84,7 +88,7 @@
                 $el.classList.add('bg-white');
                 $el.classList.remove('bg-gray-200');
             }
-        " />
+        "  />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
