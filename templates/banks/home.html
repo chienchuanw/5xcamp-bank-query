@@ -5,6 +5,8 @@
 
 {% block content %}
 <div x-data="{ 
+	banks: {{ banks_json }}, 
+	branches: {{ branches_json }},
 	openBankOption: false, 
 	openBranchOption: false, 
 	bankSearch: '', 
@@ -18,8 +20,7 @@
 	selectedBranchCode: '',
 	selectedBranchAddress: '',
 	selectedBranchTelephone: '',
-	banks: {{ banks_json }}, 
-	branches: {{ branches_json }}, 
+	copyButtonText: '複製代碼',
 	get filteredBanks() {
 		const search = this.bankSearch.trim();
 		if (search === '') return this.banks;
@@ -37,6 +38,18 @@
 			const branchInfo = `${branch.branch_name}`;
 			return searchWords.every(word => branchInfo.includes(word)) && branch.bank_id == this.selectedBankId;
 		});
+	},
+	copyText: function(text) {
+		navigator.clipboard.writeText(text)
+			.then(() => {
+				this.copyButtonText = '已複製';
+				setTimeout(() => {
+					this.copyButtonText = '複製代碼';
+				}, 2000);
+			})
+			.catch(err => {
+				console.error('Text copy failed!', err);
+			});
 	},
 }">
 	<section id="search-input" class="flex justify-around max-w-4xl mx-auto my-10">
@@ -135,7 +148,7 @@
 			</div>
 			<div class="flex items-center">
 				<p class="mb-3 font-normal">分行代碼：<span x-text="selectedBranchCode"></span></p>
-				<button type="button" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center ml-2 me-2 mb-2 tracking-wider">複製代碼</button>
+				<button type="button" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center ml-2 me-2 mb-2 tracking-wider" x-text="copyButtonText" @click="copyText(selectedBranchCode)"></button>
 			</div>
 			<div>
 				<p class="mb-3 font-normal">地址：<span x-text="selectedBranchAddress"></span></p>
