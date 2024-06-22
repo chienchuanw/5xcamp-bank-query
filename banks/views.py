@@ -2,6 +2,7 @@ from typing import Any
 from django.views.generic import ListView
 from .models import Bank, Branch
 import json
+from django.conf import settings
 
 
 class BankHomeView(ListView):
@@ -16,11 +17,22 @@ class BankHomeView(ListView):
         # Serialize the banks and branches querysets to JSON
         banks_json = json.dumps(list(Bank.objects.values("id", "code", "name")))
         branches_json = json.dumps(
-            list(Branch.objects.values("id", "branch_name", "bank_id"))
+            list(
+                Branch.objects.values(
+                    "id",
+                    "branch_name",
+                    "bank_id",
+                    "branch_code",
+                    "address",
+                    "telephone",
+                )
+            )
         )
 
         # Add the JSON serialized data to the context
         context["banks_json"] = banks_json
         context["branches_json"] = branches_json
+
+        context["base_url"] = settings.BASE_URL
 
         return context
