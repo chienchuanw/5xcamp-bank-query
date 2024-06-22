@@ -47,7 +47,7 @@ class BankHomeView(ListView):
         # Add the JSON serialized data to the context
         context["banks_json"] = banks_json
         context["branches_json"] = branches_json
-        context["base_url"] = settings.BASE_URL
+        context["base_url"] = json.dumps(settings.BASE_URL)
 
         return context
 

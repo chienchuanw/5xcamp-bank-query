@@ -7,6 +7,7 @@
 <div x-data="{ 
 	banks: {{ banks_json }}, 
 	branches: {{ branches_json }},
+	baseUrl: {{ base_url }},
 	openBankOption: false, 
 	openBranchOption: false, 
 	bankSearch: '', 
@@ -20,7 +21,8 @@
 	selectedBranchCode: '',
 	selectedBranchAddress: '',
 	selectedBranchTelephone: '',
-	copyButtonText: '複製代碼',
+	copyButtonCode: '複製代碼',
+	copyButtonUrl: '複製此頁連結',
 	get filteredBanks() {
 		const search = this.bankSearch.trim();
 		if (search === '') return this.banks;
@@ -42,16 +44,44 @@
 	getBranchNameWithoutBank(branchName) {
 		return branchName.replace(this.selectedBankName, '').trim();
 	},
-	copyText: function(text) {
+	copyBranchCode: function(text) {
 		navigator.clipboard.writeText(text)
 			.then(() => {
-				this.copyButtonText = '已複製';
+				this.copyButtonCode = '已複製';
 				setTimeout(() => {
-					this.copyButtonText = '複製代碼';
+					this.copyButtonCode = '複製代碼';
 				}, 2000);
 			})
 			.catch(err => {
-				console.error('Text copy failed!', err);
+				console.error('Code copy failed!', err);
+			});
+	},
+	updateUrlAndDisplay() {
+		if (this.selectedBank && this.selectedBranch) {
+			const bank = this.banks.find(bank => `${bank.code} ${bank.name}` === this.selectedBank);
+			const branch = this.branches.find(branch => branch.branch_name.includes(this.selectedBranch));
+			if (bank && branch) {
+				this.selectedBranchCode = branch.branch_code;
+				this.selectedBranchAddress = branch.address;
+				this.selectedBranchTelephone = branch.telephone;
+				this.selectedBranchName = branch.branch_name;
+
+				const url = `${this.baseUrl}${bank.code}/${branch.branch_code}/${bank.name}-${branch.branch_name}.html`;
+				window.history.pushState({}, '', url);
+			}
+		}
+	},
+	copyUrl: function() {
+		const pageUrl = `${this.baseUrl}${this.selectedBankCode}/${this.selectedBranchCode}/${this.selectedBankName}-${this.selectedBranchName}.html`;
+		navigator.clipboard.writeText(pageUrl)
+			.then(() => {
+				this.copyButtonUrl = '已複製';
+				setTimeout(() => {
+					this.copyButtonUrl = '複製此頁連結';
+				}, 2000);
+			})
+			.catch(err => {
+				console.error('Url copy failed!', err);
 			});
 	},
 }">
@@ -135,7 +165,7 @@
 					<template x-for="branch in filteredBranches">
 						<li class="block px-4 py-2 hover:bg-gray-100" 
 							x-text="getBranchNameWithoutBank(branch.branch_name)"
-							@click="selectedBranch = getBranchNameWithoutBank(branch.branch_name); openBranchOption = false; selectedBranchCode = branch.branch_code; selectedBranchAddress = branch.address; selectedBranchTelephone = branch.telephone; selectedBranchName = getBranchNameWithoutBank(branch.branch_name)"
+							@click="selectedBranch = getBranchNameWithoutBank(branch.branch_name); openBranchOption = false; selectedBranchCode = branch.branch_code; selectedBranchAddress = branch.address; selectedBranchTelephone = branch.telephone; selectedBranchName = getBranchNameWithoutBank(branch.branch_name); updateUrlAndDisplay()"
 							@mouseover="selectedBranch = getBranchNameWithoutBank(branch.branch_name)">
 						</li>
 					</template>
@@ -151,7 +181,7 @@
 			</div>
 			<div class="flex items-center">
 				<p class="mb-3 font-normal">分行代碼：<span x-text="selectedBranchCode"></span></p>
-				<button type="button" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center ml-2 me-2 mb-2 tracking-wider" x-text="copyButtonText" @click="copyText(selectedBranchCode)"></button>
+				<button type="button" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center ml-2 me-2 mb-2 tracking-wider" x-text="copyButtonCode" @click="copyBranchCode(selectedBranchCode)"></button>
 			</div>
 			<div>
 				<p class="mb-3 font-normal">地址：<span x-text="selectedBranchAddress"></span></p>
@@ -171,7 +201,7 @@
 		</div>
 		<div class="mt-6">
 			<a href="{% url "banks:home" %}" class="text-gray-700 hover:text-white border border-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center ml-1 me-2 mb-2 tracking-wider">重新查詢</a>
-			<button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center me-2 mb-2 tracking-wider">複製此頁面連結</button>
+			<button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-normal rounded-lg text-xs px-2.5 py-2 text-center me-2 mb-2 tracking-wider" x-text="copyButtonUrl" @click="copyUrl()"></button>
 		</div>
 	</section>
 </div>
