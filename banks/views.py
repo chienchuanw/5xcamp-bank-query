@@ -21,7 +21,10 @@ class BankHomeView(ListView):
             {
                 "id": bank["id"],
                 "code": bank["code"],
-                "name": bank["name"].replace("股份有限公司", "").strip(),
+                "name": bank["name"]
+                .replace("股份有限公司", "")
+                .replace("有限公司", "")
+                .strip(),
             }
             for bank in banks
         ]
