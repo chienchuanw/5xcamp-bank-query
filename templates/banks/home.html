@@ -8,22 +8,34 @@
 	openBankOption: false, 
 	openBranchOption: false, 
 	bankSearch: '', 
+	branchSearch: '',
 	selectedBank: '',
+	selectedBranch: '',
 	banks: {{ banks_json }}, 
 	branches: {{ branches_json }}, 
 	get filteredBanks() {
-		const search = this.bankSearch.trim().toLowerCase();
+		const search = this.bankSearch.trim();
 		if (search === '') return this.banks;
 		const searchWords = search.split(' ').filter(word => word);
 		return this.banks.filter(bank => {
 			const bankInfo = `${bank.code} ${bank.name}`;
 			return searchWords.every(word => bankInfo.includes(word));
 		});
-	}
+	}, 
+	get filteredBranches() {
+		const search = this.branchSearch.trim();
+		if (search === '') return this.branches;
+		const searchWords = search.split(' ').filter(word => word);
+		return this.branches.filter(branch => {
+			const branchInfo = `${branch.branch_name}`;
+			return searchWords.every(word => branchInfo.includes(word));
+		});
+	},
 }">
 	<!-- test -->
 	<div>
-		<span x-text=""></span>
+		<span x-text="`${branches[0].bank_id} ${branches[0].branch_name}`" class="block"></span>
+		<span x-text="`${banks[0].id} ${banks[0].name}`" class="block"></span>
 	</div>
 	<!-- test -->
   <div class="max-w-md mx-auto my-10">
@@ -88,15 +100,31 @@
                 $el.classList.add('bg-white');
                 $el.classList.remove('bg-gray-200');
             }
-        "  />
+        "
+				x-model="selectedBranch"
+				@input="branchSearch = $event.target.value"   />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
-		<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBranchOption">
+		<div id="branch-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBranchOption">
 			<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+				<template x-if="filteredBranches.length === 0">
+					<li class="block px-4 py-2 hover:bg-gray-100">無相關資料</li>
+				</template>
+				<template x-for="branch in filteredBranches">
+					<li class="block px-4 py-2 hover:bg-gray-100" 
+						x-text="`${branch.branch_name}`"
+						@click="selectedBranch = `${branch.branch_name}`; openBranchOption = false"
+						@mouseover="selectedBranch = `${branch.branch_name}`">
+					</li>
+				</template>
+
+				<!--
 				{% for branch in branches %}
-				<li class="block px-4 py-2 hover:bg-gray-100">{{ branch.branch_name }}</li>
+				<li class="block px-4 py-2 hover:bg-gray-100">{{ branch.bank.code }} - {{ branch.branch_name }}</li>
 				{% endfor %}
+				-->
+				
 			</ul>
 		</div>
   </div>
