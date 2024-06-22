@@ -4,7 +4,22 @@
 {% block title %}- 首頁{% endblock title %}
 
 {% block content %}
-<div x-data="{ openBankOption: false, openBranchOption: false, bankSearch: '' }">
+<div x-data="{ 
+	openBankOption: false, 
+	openBranchOption: false, 
+	bankSearch: '', 
+	banks: {{ banks_json }}, 
+	branches: {{ branches_json }}, 
+	get filteredBanks(){
+	if (this.bankSearch === '') return this.banks;
+	return this.banks.filter(bank => bank.name.includes(this.bankSearch) || bank.code.includes(this.bankSearch));
+	}
+}">
+	<!-- test -->
+	<div>
+		<span x-text=""></span>
+	</div>
+	<!-- test -->
   <div class="max-w-md mx-auto my-10">
     <label for="bank-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">搜尋</label>
     <div class="relative" @click.away="openBankOption = false">
@@ -17,15 +32,25 @@
       </div>
       <input type="search" id="bank-search"
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
-        placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" @input="bankSearch = $event.target.value" />
+        placeholder="請輸入關鍵字或銀行代碼..." 
+				@focus="openBankOption = true" 
+				@input="bankSearch = $event.target.value" />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
-		<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBankOption">
-			<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
-				{% for bank in banks %}
-				<li class="block px-4 py-2 hover:bg-gray-100">{{bank.code}} {{ bank.name }}</li>
-				{% endfor %}
+		<div id="bank-dropdown" 
+			class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" 
+			x-cloak 
+			x-show="openBankOption" >
+			<ul class="py-2 text-sm text-gray-700" 
+				aria-labelledby="dropdownDefaultButton" >
+				<template x-if="filteredBanks.length === 0">
+					<li class="block px-4 py-2 hover:bg-gray-100">無相關資料</li>
+				</template>
+				<template x-for="bank in filteredBanks" :key="bank.code">
+					<li class="block px-4 py-2 hover:bg-gray-100" x-text="`${bank.code} ${bank.name}`">
+					</li>
+				</template>
 			</ul>
 		</div>
   </div>
