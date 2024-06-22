@@ -39,6 +39,9 @@
 			return searchWords.every(word => branchInfo.includes(word)) && branch.bank_id == this.selectedBankId;
 		});
 	},
+	getBranchNameWithoutBank(branchName) {
+		return branchName.replace(this.selectedBankName, '').trim();
+	},
 	copyText: function(text) {
 		navigator.clipboard.writeText(text)
 			.then(() => {
@@ -131,9 +134,9 @@
 					</template>
 					<template x-for="branch in filteredBranches">
 						<li class="block px-4 py-2 hover:bg-gray-100" 
-							x-text="`${branch.branch_name}`"
-							@click="selectedBranch = `${branch.branch_name}`; openBranchOption = false; selectedBranchCode = branch.branch_code; selectedBranchAddress = branch.address; selectedBranchTelephone = branch.telephone; selectedBranchName = `${branch.branch_name}`"
-							@mouseover="selectedBranch = `${branch.branch_name}`">
+							x-text="getBranchNameWithoutBank(branch.branch_name)"
+							@click="selectedBranch = getBranchNameWithoutBank(branch.branch_name); openBranchOption = false; selectedBranchCode = branch.branch_code; selectedBranchAddress = branch.address; selectedBranchTelephone = branch.telephone; selectedBranchName = getBranchNameWithoutBank(branch.branch_name)"
+							@mouseover="selectedBranch = getBranchNameWithoutBank(branch.branch_name)">
 						</li>
 					</template>
 				</ul>
