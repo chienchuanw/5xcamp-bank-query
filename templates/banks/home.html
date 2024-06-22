@@ -11,6 +11,7 @@
 	branchSearch: '',
 	selectedBank: '',
 	selectedBranch: '',
+	selectedBankId: '',
 	banks: {{ banks_json }}, 
 	branches: {{ branches_json }}, 
 	get filteredBanks() {
@@ -24,11 +25,11 @@
 	}, 
 	get filteredBranches() {
 		const search = this.branchSearch.trim();
-		if (search === '') return this.branches;
+		if (search === '') return this.branches.filter(branch => branch.bank_id == this.selectedBankId);
 		const searchWords = search.split(' ').filter(word => word);
 		return this.branches.filter(branch => {
 			const branchInfo = `${branch.branch_name}`;
-			return searchWords.every(word => branchInfo.includes(word));
+			return searchWords.every(word => branchInfo.includes(word)) && branch.bank_id == this.selectedBankId;
 		});
 	},
 }">
@@ -69,7 +70,7 @@
 				<template x-for="bank in filteredBanks" :key="bank.code">
 					<li class="block px-4 py-2 hover:bg-gray-100" 
 						x-text="`${bank.code} ${bank.name}`"
-						@click="selectedBank = `${bank.code} ${bank.name}`; openBankOption = false"
+						@click="selectedBank = `${bank.code} ${bank.name}`; selectedBankId = bank.id; openBankOption = false; selectedBranch = ''"
 						@mouseover="selectedBank = `${bank.code} ${bank.name}`">
 					</li>
 				</template>
@@ -118,12 +119,6 @@
 						@mouseover="selectedBranch = `${branch.branch_name}`">
 					</li>
 				</template>
-
-				<!--
-				{% for branch in branches %}
-				<li class="block px-4 py-2 hover:bg-gray-100">{{ branch.bank.code }} - {{ branch.branch_name }}</li>
-				{% endfor %}
-				-->
 				
 			</ul>
 		</div>
