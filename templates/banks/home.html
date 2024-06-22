@@ -8,11 +8,13 @@
 	openBankOption: false, 
 	openBranchOption: false, 
 	bankSearch: '', 
+	selectedBank: '',
 	banks: {{ banks_json }}, 
 	branches: {{ branches_json }}, 
-	get filteredBanks(){
-	if (this.bankSearch === '') return this.banks;
-	return this.banks.filter(bank => bank.name.includes(this.bankSearch) || bank.code.includes(this.bankSearch));
+	get filteredBanks() {
+		const search = this.bankSearch.trim();
+		if (search === '') return this.banks;
+		return this.banks.filter(bank => bank.name.includes(search) || bank.code.includes(search));
 	}
 }">
 	<!-- test -->
@@ -34,7 +36,8 @@
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
         placeholder="請輸入關鍵字或銀行代碼..." 
 				@focus="openBankOption = true" 
-				@input="bankSearch = $event.target.value" />
+				@input="bankSearch = $event.target.value" 
+				x-model="selectedBank" />
       <button type="button"
         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">搜尋</button>
     </div>
@@ -48,7 +51,10 @@
 					<li class="block px-4 py-2 hover:bg-gray-100">無相關資料</li>
 				</template>
 				<template x-for="bank in filteredBanks" :key="bank.code">
-					<li class="block px-4 py-2 hover:bg-gray-100" x-text="`${bank.code} ${bank.name}`">
+					<li class="block px-4 py-2 hover:bg-gray-100" 
+						x-text="`${bank.code} ${bank.name}`"
+						@click="selectedBank = `${bank.code} ${bank.name}`; openBankOption = false"
+						@mouseover="selectedBank = `${bank.code} ${bank.name}`">
 					</li>
 				</template>
 			</ul>
