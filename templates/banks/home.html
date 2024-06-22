@@ -1,5 +1,4 @@
 {% extends "shared/base.html" %}
-{% load custom_filters %}
 
 {% block title %}- 首頁{% endblock title %}
 
@@ -12,13 +11,13 @@
 	openBranchOption: false, 
 	bankSearch: '', 
 	branchSearch: '',
-	selectedBank: '',
-	selectedBranch: '',
+	selectedBank: '{{ bank_code }} {{ bank_name }}',
+	selectedBranch: '{{ branch_name }}',
 	selectedBankId: '',
-	selectedBankCode: '',
-	selectedBankName: '',
-	selectedBranchName: '', 
-	selectedBranchCode: '',
+	selectedBankCode: '{{ bank_code }}',
+	selectedBankName: '{{ bank_name }}',
+	selectedBranchName: '{{ branch_name }}', 
+	selectedBranchCode: '{{ branch_code }}',
 	selectedBranchAddress: '',
 	selectedBranchTelephone: '',
 	copyButtonCode: '複製代碼',

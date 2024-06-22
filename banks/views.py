@@ -49,8 +49,17 @@ class BankHomeView(ListView):
         context["branches_json"] = branches_json
         context["base_url"] = json.dumps(settings.BASE_URL)
 
+        # Add URL parameters to the context if they exist
+        context["bank_code"] = self.kwargs.get("bank_code", "")
+        context["branch_code"] = self.kwargs.get("branch_code", "")
+        context["bank_name"] = self.kwargs.get("bank_name", "")
+        context["branch_name"] = self.kwargs.get("branch_name", "")
+
+        print("=" * 10)
+        print(context["bank_code"])
+        print(context["branch_code"])
+        print(context["bank_name"])
+        print(context["branch_name"])
+        print("=" * 10)
+
         return context
-
-
-class BranchDetailView(DetailView):
-    pass
