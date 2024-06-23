@@ -61,9 +61,11 @@ class BankHomeView(ListView):
             address = Branch.objects.get(branch_code=context["branch_code"]).address
             telephone = Branch.objects.get(branch_code=context["branch_code"]).telephone
 
-            context["bank_name"] = str(bank_name)
+            context["bank_name"] = (
+                str(bank_name).replace("股份有限公司", "").replace("有限公司", "")
+            )
             context["bank_code"] = str(bank_code)
-            context["branch_name"] = str(branch_name)
+            context["branch_name"] = str(branch_name).replace(context["bank_name"], "")
             context["branch_address"] = str(address)
             context["branch_telephone"] = str(telephone)
 
