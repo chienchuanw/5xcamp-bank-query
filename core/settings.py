@@ -8,7 +8,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_URL = "http://127.0.0.1:8000/"
+BASE_URL = env("HOST_BASE_URL")
 
 
 # Quick-start development settings - unsuitable for production
