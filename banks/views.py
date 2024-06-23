@@ -49,17 +49,22 @@ class BankHomeView(ListView):
         context["branches_json"] = branches_json
         context["base_url"] = json.dumps(settings.BASE_URL)
 
-        # Add URL parameters to the context if they exist
-        context["bank_code"] = self.kwargs.get("bank_code", "")
-        context["branch_code"] = self.kwargs.get("branch_code", "")
-        context["bank_name"] = self.kwargs.get("bank_name", "")
-        context["branch_name"] = self.kwargs.get("branch_name", "")
+        # Use branch code as an URL parameter to the context if it exists
+        if self.kwargs.get("branch_code", ""):
+            context["branch_code"] = self.kwargs.get("branch_code", "")
 
-        print("=" * 10)
-        print(context["bank_code"])
-        print(context["branch_code"])
-        print(context["bank_name"])
-        print(context["branch_name"])
-        print("=" * 10)
+            bank_name = Branch.objects.get(branch_code=context["branch_code"]).bank.name
+            bank_code = Branch.objects.get(branch_code=context["branch_code"]).bank.code
+            branch_name = Branch.objects.get(
+                branch_code=context["branch_code"]
+            ).branch_name
+            address = Branch.objects.get(branch_code=context["branch_code"]).address
+            telephone = Branch.objects.get(branch_code=context["branch_code"]).telephone
+
+            context["bank_name"] = str(bank_name)
+            context["bank_code"] = str(bank_code)
+            context["branch_name"] = str(branch_name)
+            context["branch_address"] = str(address)
+            context["branch_telephone"] = str(telephone)
 
         return context
