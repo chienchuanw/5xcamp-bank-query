@@ -9,7 +9,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_URL = env("HOST_BASE_URL")
+BASE_URL = env("BASE_URL")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -18,11 +18,9 @@ BASE_URL = env("HOST_BASE_URL")
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = False
 
-ALLOWED_HOSTS = [env("DOMAIN"), "localhost"]
-
-SECURE_SSL_REDIRECT = True
+ALLOWED_HOSTS = [env("LOCALHOST"), env("DOMAIN")]
 
 # Application definition
 
@@ -113,7 +111,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
