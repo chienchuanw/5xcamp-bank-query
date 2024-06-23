@@ -41,6 +41,9 @@
 	getBranchNameWithoutBank(branchName) {
 		return branchName.replace(this.selectedBankName, '').trim();
 	},
+	trimSpace(name) {
+		return name.trim()
+	},
 	copyBranchCode: function(text) {
 		navigator.clipboard.writeText(text)
 			.then(() => {
@@ -82,7 +85,7 @@
 			});
 	},
 }">
-	<section id="search-input" class="flex flex-col md:flex-row justify-around max-w-4xl mx-auto my-10 px-4 md:px-0">
+	<section id="search-input" class="flex flex-col md:flex-row justify-around max-w-4xl mx-auto my-6 px-4 md:px-0">
 		<div class="w-full md:w-1/2 md:mr-1 mb-4 md:mb-0">
 				<p class="text-sm ml-2 mb-1.5 tracking-wider">銀行名稱</p>
 				<div class="relative" @click.away="openBankOption = false">
@@ -93,7 +96,7 @@
 						</div>
 						<input type="search" id="bank-search"
 								class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
-								placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" @input="bankSearch = $event.target.value" x-model="selectedBank" />
+								placeholder="請輸入關鍵字或銀行代碼..." @focus="openBankOption = true" @input="bankSearch = $event.target.value" x-model="trimSpace(selectedBank)" />
 				</div>
 				<div id="bank-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBankOption">
 						<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
@@ -121,7 +124,7 @@
 						<input type="search" id="branch-search" disabled
 								class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500"
 								placeholder="請選擇分行名稱" @focus="openBranchOption = true" x-effect="
-										if (selectedBank === '') {
+										if (trimSpace(selectedBank) == '') {
 												$el.setAttribute('disabled', true);
 												$el.classList.add('bg-gray-200');
 												$el.classList.remove('bg-white');
@@ -129,7 +132,7 @@
 												$el.removeAttribute('disabled');
 												$el.classList.add('bg-white');
 												$el.classList.remove('bg-gray-200');
-										}" x-model="selectedBranchName" @input="branchSearch = $event.target.value" />
+										}" x-model="selectedBranchName" @input="branchSearch = $event.target.value; " />
 				</div>
 				<div id="branch-dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full" x-cloak x-show="openBranchOption">
 						<ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
@@ -148,7 +151,7 @@
 	</section>
 
   
-	<section id="search-result" class="max-w-4xl mx-auto my-10 px-4 md:px-0" x-show="selectedBranchName" x-cloak>
+	<section id="search-result" class="max-w-4xl mx-auto my-4 px-4 md:px-0" x-show="selectedBranchName" x-cloak>
     <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
         <div>
             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900" x-text="`${selectedBankName} (${selectedBankCode}) ${selectedBranchName}`"></h5>
