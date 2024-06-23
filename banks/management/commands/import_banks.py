@@ -28,6 +28,16 @@ class Command(BaseCommand):
                     bank, created = Bank.objects.get_or_create(
                         code=row["總機構代號"],
                         defaults={"name": row["機構名稱"]},
+                        address=(row["地址"] if not pandas.isna(row["地址"]) else ""),
+                        telephone=(row["電話"] if not pandas.isna(row["電話"]) else ""),
+                        website=(
+                            row["金融機構網址"]
+                            if not pandas.isna(row["金融機構網址"])
+                            else ""
+                        ),
+                        announcement_date=pandas.to_datetime(
+                            row["公告日期"], errors="coerce"
+                        ),
                     )
                 else:
                     try:
@@ -40,15 +50,10 @@ class Command(BaseCommand):
 
                     Branch.objects.create(
                         bank=bank,
-                        branch_name=row["機構名稱"],
                         branch_code=row["機構代號"],
+                        branch_name=row["機構名稱"],
                         address=row["地址"],
                         telephone=row["電話"],
-                        website=(
-                            row["金融機構網址"]
-                            if not pandas.isna(row["金融機構網址"])
-                            else ""
-                        ),
                         manager=row["負責人"] if not pandas.isna(row["負責人"]) else "",
                         update_date=pandas.to_datetime(
                             row["異動日期"], errors="coerce"
