@@ -20,7 +20,11 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [env("LOCALHOST"), env("DOMAIN")]
+ALLOWED_HOSTS = [
+    env("LOCALHOST"),
+    env("DOMAIN"),
+    "interview-5xcamp-7c73676fe792.herokuapp.com",
+]
 
 # Application definition
 
