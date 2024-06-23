@@ -1,5 +1,8 @@
 from pathlib import Path
 import environ
+import dj_database_url
+import os
+
 
 env = environ.Env()
 environ.Env.read_env()
@@ -118,3 +121,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Heroku Deployment
+if "DATABASE_URL" in os.environ:
+    DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
