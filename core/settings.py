@@ -21,9 +21,11 @@ BASE_URL = env("HOST_BASE_URL")
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost"])
+
+SECURE_SSL_REDIRECT = True
 
 
 # Application definition
