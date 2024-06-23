@@ -96,7 +96,7 @@ $ python manage.py runserver
 
 
 ## 其他
-本網站開發參考五倍學院的[台灣銀行代碼查詢](https://bank.5xcamp.us/)網站，僅作為學習之用。
+本網站開發參考五倍學院的[台灣銀行代碼查詢](https://bank.5xcamp.us/)網站，僅作為學習之用。  
 如有其他建議，可以透過 Discord: chienchuan_w 加好友並留言私訊，歡迎大家相互交流。
 
 
