@@ -7,11 +7,15 @@
 ## 目錄
 
 - [專案簡介](#專案簡介)
-- [目錄](#目錄)
-- [功能](#功能)
-- [使用](#使用)
-- [安裝](#安裝)
-- [其他](#其他)
+  - [目錄](#目錄)
+  - [功能](#功能)
+  - [使用](#使用)
+    - [查詢銀行代碼](#查詢銀行代碼)
+    - [使用示例](#使用示例)
+  - [安裝](#安裝)
+    - [系統要求](#系統要求)
+    - [安裝步驟](#安裝步驟)
+  - [其他](#其他)
 
 ## 功能
 
@@ -54,28 +58,28 @@ $ git clone git@github.com:chienchuanw/5xcamp-interview.git
 $ cd 5xcamp-interview
 ```
 
-2. 建立虛擬環境並啟動
+2. 建立虛擬環境並啟動  
 如果還沒有安裝 Poetry，請先安裝：
 ```bash
 $ pip install poetry
 ```
-使用 Poetry 進入虛擬環境
+使用 Poetry 進入虛擬環境  
 ```bash
 $ poetry shell
 ```
 
-3. 使用 Poetry 安裝依賴套件
+3. 使用 Poetry 安裝依賴套件  
 ```bash
 $ poetry install
 ```
 
-4. 遷移數據庫
+4. 遷移數據庫  
 ```bash
 $ python manage.py migrate
 ```
 
 5. 設定環境變數  
-於路徑 /core 內複製 `.env.example` 並重新命名為 `.env`，根據檔案內指引提示設定對應的環境變數。
+於路徑 `/core` 內複製 `.env.example` 並重新命名為 `.env`，根據檔案內指引提示設定對應的環境變數。
 ```shell
 # .env 文件範例
 SECRET_KEY=Django-專案金鑰
@@ -85,12 +89,12 @@ DOMAIN=入口-URL（不包含 http 或 https）
 ADMIN_URL=後台管理入口-URL
 ```
 
-6. 建立靜態樣式與腳本
+6. 建立靜態樣式與腳本  
 ```bash
 $ npm run build
 ```
 
-7. 啟動開發伺服器
+7. 啟動開發伺服器  
 ```bash
 $ python manage.py runserver
 ```
@@ -98,7 +102,7 @@ $ python manage.py runserver
 ## 其他
 
 本網站開發參考五倍學院的[台灣銀行代碼查詢](https://bank.5xcamp.us/)網站，僅作為學習之用。  
-如有其他建議，可以透過 Discord: chienchuan_w 加好友並留言私訊，歡迎大家相互交流。
+如有其他建議，可以透過 Discord 搜尋 `chienchuan_w` 加好友並留言私訊，歡迎大家相互交流。
 
 
 
