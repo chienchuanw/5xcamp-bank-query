@@ -1,5 +1,5 @@
 from typing import Any
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from .models import Bank, Branch
 import json
 from django.conf import settings
@@ -61,6 +61,7 @@ class BankHomeView(ListView):
             address = Branch.objects.get(branch_code=context["branch_code"]).address
             telephone = Branch.objects.get(branch_code=context["branch_code"]).telephone
 
+            # Send the query result to context
             context["bank_name"] = (
                 str(bank_name).replace("股份有限公司", "").replace("有限公司", "")
             )

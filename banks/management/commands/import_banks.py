@@ -8,12 +8,14 @@ from django.conf import settings
 class Command(BaseCommand):
     help = "Import bank information from a CSV file"
 
+    # Define CLI parameters
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "csv_file", type=str, nargs="?", default="data/financial_institutions.csv"
         )
 
     def handle(self, *args, **kwargs):
+        # Provide CSV path and load data
         csv_file = os.path.join(settings.BASE_DIR, kwargs["csv_file"])
         data = pandas.read_csv(csv_file)
 
