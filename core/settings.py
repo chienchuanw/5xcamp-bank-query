@@ -3,13 +3,16 @@ import environ
 import dj_database_url
 import os
 
-env = environ.Env()
+env = environ.Env(
+    ADMIN_URL=(str, "admin/"),
+)
 environ.Env.read_env()
+BASE_URL = env("BASE_URL")
+ADMIN_URL = env("ADMIN_URL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_URL = env("BASE_URL")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -127,5 +130,3 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-ADMIN_URL = env("ADMIN_URL")
