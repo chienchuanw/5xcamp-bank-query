@@ -73,12 +73,7 @@ $ poetry shell
 $ poetry install
 ```
 
-4. 遷移數據庫  
-```bash
-$ python manage.py migrate
-```
-
-5. 設定環境變數  
+4. 設定環境變數  
 於路徑 `/core` 內複製 `.env.example` 並重新命名為 `.env`，根據檔案內指引提示設定對應的環境變數。
 ```shell
 # .env 文件範例
@@ -89,12 +84,22 @@ DOMAIN=入口-URL（不包含 http 或 https）
 ADMIN_URL=後台管理入口-URL
 ```
 
-6. 建立靜態樣式與腳本  
+5. 遷移資料庫  
+```bash
+$ python manage.py migrate
+```
+
+6. 匯入銀行相關數據至資料庫
+```bash
+$ python manage.py loaddata seed/0001_bank.json
+```
+
+7. 建立靜態樣式與腳本  
 ```bash
 $ npm run build
 ```
 
-7. 啟動開發伺服器  
+8. 啟動開發伺服器  
 ```bash
 $ python manage.py runserver
 ```
