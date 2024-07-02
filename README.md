@@ -1,7 +1,7 @@
 # 專案簡介  
 
 ![專案圖片](https://i.imgur.com/TWSDocn.png)
-[台灣銀行代碼查詢](https://interview-5xcamp-7c73676fe792.herokuapp.com/)一個使用 Django 框架開發的網站，旨在提供用戶快速查詢台灣各銀行分行的代碼資訊。  
+[台灣銀行代碼查詢](https://interview-5xcamp-7c73676fe792.herokuapp.com/)是一個使用 Django 框架開發的網站，旨在提供用戶快速查詢台灣各銀行分行的代碼資訊。  
 通過這個網站，用戶可以輕鬆地搜索並獲取所需的銀行代碼資訊，網站內也提供「複製代碼」、「複製頁面連結」等功能，節省紀錄時間並提高查詢效率。
 
 ## 目錄
@@ -15,6 +15,7 @@
   - [安裝](#安裝)
     - [系統要求](#系統要求)
     - [安裝步驟](#安裝步驟)
+  - [技術棧](#技術棧)
   - [其他](#其他)
 
 ## 功能
@@ -104,10 +105,15 @@ $ npm run build
 $ python manage.py runserver
 ```
 
+## 技術棧
+本專案使用了以下技術和工具：
+- 前端：HTML5、CSS3、Tailwind CSS、JavaScript、Alpine.js、Rollup
+- 後端：Python、Django
+- 資料庫：SQLite
+- 部署：Heroku
+- 版本控制：Git
+
 ## 其他
 
 本網站開發參考五倍學院的[台灣銀行代碼查詢](https://bank.5xcamp.us/)網站，僅作為學習之用。  
 如有其他建議，可以透過 Discord 搜尋 `chienchuan_w` 加好友並留言私訊，歡迎大家相互交流。
-
-
-
